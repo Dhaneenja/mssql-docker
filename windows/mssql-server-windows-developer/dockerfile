@@ -17,6 +17,9 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 COPY start.ps1 /
 WORKDIR /
 
+#If "/SQLSVCACCOUNT='NT AUTHORITY\System'" givens error as "Login failed for user 'User Manager\ContainerAdministrator'" then
+#Change it as "/SQLSVCACCOUNT='NT AUTHORITY\NETWORK SERVICE'"
+
 RUN Invoke-WebRequest -Uri $env:box -OutFile SQL.box ; \
         Invoke-WebRequest -Uri $env:exe -OutFile SQL.exe ; \
         Start-Process -Wait -FilePath .\SQL.exe -ArgumentList /qs, /x:setup ; \
